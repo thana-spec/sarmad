@@ -625,8 +625,7 @@ a:active {
 .popular-tour img {
     width: 100%;
     height: clamp(240px, 45vw, 340px);
-    object-fit: contain;
-    background-color: #f8f9fa;
+    object-fit: cover;
     transition: transform 0.5s ease;
     cursor: zoom-in;
 }
