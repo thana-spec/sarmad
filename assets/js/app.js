@@ -317,8 +317,8 @@ var popoverList = (typeof bootstrap !== 'undefined') ? popoverTriggerList.map(fu
 
             var images = gallery.querySelectorAll('.popular-tour img');
             images.forEach(function (img, imageIndex) {
-                var fullSrc = img.getAttribute('data-full') || img.getAttribute('src');
-                if (!fullSrc) {
+                var fullSrc = img.getAttribute('data-full') || img.getAttribute('data-src') || img.getAttribute('src');
+                if (!fullSrc || fullSrc.startsWith('data:image/svg+xml')) {
                     return;
                 }
 
@@ -375,9 +375,18 @@ var popoverList = (typeof bootstrap !== 'undefined') ? popoverTriggerList.map(fu
         loadGlightboxAssets(initializeGalleryLightbox);
     }
 
+    // Initialize on DOM ready
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initGalleryLightbox);
     } else {
         initGalleryLightbox();
     }
+
+    // Re-initialize after images are loaded (for lazy loading)
+    // Use a small delay to allow lazy loading to complete
+    setTimeout(function() {
+        if (typeof GLightbox !== 'undefined') {
+            initializeGalleryLightbox();
+        }
+    }, 1000);
 })();
